@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN" "struts-2.1.7.dtd" >
+<struts>
+    <package name="user" extends="struts-default" namespace="/user">
+        <action name="login" class="user_Action.User_Action" method="login">
+            <result name="no" type="dispatcher">/login.jsp</result>
+            <result name="yes" type="redirectAction">
+                <param name="namespace">/emp</param>
+                <param name="actionName">query</param>
+            </result>
+        </action>
+        <action name="register" class="user_Action.User_Action" method="register">
+            <result name="no" type="dispatcher">/register.jsp</result>
+            <result name="yes" type="redirect">/login.jsp</result>
+        </action>
+    </package>
+
+    <package name="emp" extends="struts-default" namespace="/emp">
+        <interceptors>
+            <interceptor name="login" class="user_Action.Loginintercepyor"></interceptor>
+            <interceptor-stack name="stack">
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+                <interceptor-ref name="login"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="stack"></default-interceptor-ref>
+        <global-results>
+            <result name="error" type="dispatcher">/login.jsp</result>
+            <result name="no" type="dispatcher">/login.jsp</result>
+        </global-results>
+        <action name="add" class="emp_action.Emp_Action" method="add">
+            <result name="yes" type="chain">query</result>
+        </action>
+        <action name="delete" class="emp_action.Emp_Action" method="delete">
+            <result name="yes" type="chain">query</result>
+        </action>
+        <action name="update" class="emp_action.Emp_Action" method="update">
+            <result name="yes" type="chain">query</result>
+        </action>
+        <action name="query" class="emp_action.Emp_Action" method="query">
+            <result name="yes" type="redirect">/emp/emplist.jsp</result>
+        </action>
+    </package>
+    <package name="file" extends="struts-default" namespace="/file">
+        <action name="download" class="emp_action.Download" method="download"/>
+    </package>
+</struts>
