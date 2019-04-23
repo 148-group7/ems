@@ -12,6 +12,7 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public void add(Emp emp) {
         System.out.println("天赐最帅");
+        System.out.println("sss");
 
     }
 
